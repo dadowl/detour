@@ -22,8 +22,3 @@
 - allowOffline (по-умолчанию включено) разрешает вход в обход до его начала
 - hoursToAllowDetour (по-умолчанию 0) миниальное количество часов, чтобы войти в обход
 - partyGameMode (по-умолчанию 3) gamemod участников команды обхода (см. ```/detour party add```)
-  
-## Связь со мной
-
-* [Telegram](https://t.me/swiftstranger) (@SwiftStranger)
-* [VK](https://vk.com/iosif_p)
