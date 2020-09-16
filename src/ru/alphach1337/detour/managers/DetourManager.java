@@ -7,8 +7,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.Player;
+import org.jline.utils.Log;
+
 import ru.alphach1337.detour.Settings;
 import ru.alphach1337.detour.models.EventParticipant;
 import ru.alphach1337.detour.sqlite.Database;

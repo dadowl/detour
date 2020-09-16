@@ -23,11 +23,12 @@ public class Database {
 
     private void connect() {
         try {
+        	Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:detour.db";
             co = DriverManager.getConnection(url);
 
             Bukkit.getLogger().info("Detour database initialized");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -67,8 +68,12 @@ public class Database {
 
             statement.executeBatch();
             ResultSet rs = statement.executeQuery(getActiveEventQuery);
+            
+            if (rs.next()) {
+            	return rs.getInt(1);
+            }
 
-            return rs.getInt(1);
+            return -1;
         } catch (Exception e) {
             e.printStackTrace();
         }
