@@ -1,11 +1,18 @@
 package ru.alphach1337.detour;
 
-
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.alphach1337.detour.commands.*;
+
+import ru.alphach1337.detour.commands.CommandHandler;
+import ru.alphach1337.detour.commands.Join;
+import ru.alphach1337.detour.commands.List;
+import ru.alphach1337.detour.commands.Next;
+import ru.alphach1337.detour.commands.Party;
+import ru.alphach1337.detour.commands.Quit;
+import ru.alphach1337.detour.commands.Start;
+import ru.alphach1337.detour.commands.Stick;
+import ru.alphach1337.detour.commands.Stop;
 import ru.alphach1337.detour.events.EventListener;
 import ru.alphach1337.detour.managers.DetourManager;
 import ru.alphach1337.detour.sqlite.Database;
@@ -24,14 +31,14 @@ public class Detour extends JavaPlugin implements Listener {
 
         CommandHandler cw = new CommandHandler("detour");
 
-        cw.commands.add(new Join("join"));
-        cw.commands.add(new Quit("quit"));
-        cw.commands.add(new List("list"));
-        cw.commands.add(new Start("start"));
-        cw.commands.add(new Stop("stop"));
-        cw.commands.add(new Next("next"));
-        cw.commands.add(new Party("party"));
-        cw.commands.add(new Stick("stick"));
+        cw.commands.add(new Join());
+        cw.commands.add(new Quit());
+        cw.commands.add(new List());
+        cw.commands.add(new Start());
+        cw.commands.add(new Stop());
+        cw.commands.add(new Next());
+        cw.commands.add(new Party());
+        cw.commands.add(new Stick());
 
         this.getCommand("detour").setExecutor(cw);
 

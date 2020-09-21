@@ -1,12 +1,12 @@
 package ru.alphach1337.detour.commands;
 
-import org.bukkit.Location;
-import org.bukkit.command.*;
-import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
 public class CommandHandler implements TabCompleter, CommandExecutor {
     public ArrayList<DetourCommand> commands = new ArrayList<>();
@@ -17,38 +17,37 @@ public class CommandHandler implements TabCompleter, CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command cmd, String s, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command cmd, String s, String[] args) {
         if (args.length <= 0) {
             return false;
         }
 
         if (cmd.getName().equals(commandName)) {
             for (DetourCommand command : commands) {
-
-                if (command.getClass().getSimpleName().equalsIgnoreCase(args[0])) {
+                if (command.getName().equalsIgnoreCase(args[0])) {
                     if (commandSender.hasPermission(command.getPermission())) {
                         command.execute(commandSender, cmd.toString(), args);
+                        return true;
                     }
+                    return false;
                 }
             }
-
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender commandSender, org.bukkit.command.Command cmd, String s, String[] args) {
+    public List<String> onTabComplete(CommandSender commandSender, Command cmd, String s, String[] args) {
         if (args.length <= 1) {
             ArrayList<String> strings = new ArrayList<>();
 
             for (DetourCommand command : commands) {
                 if (
-                        command.getClass().getSimpleName().toLowerCase().startsWith(args[0]) &&
+                        command.getName().toLowerCase().startsWith(args[0]) &&
                         commandSender.hasPermission(command.getPermission())
                 ) {
-                    strings.add(command.getClass().getSimpleName().toLowerCase());
+                    strings.add(command.getName().toLowerCase());
                 }
             }
 
@@ -56,12 +55,11 @@ public class CommandHandler implements TabCompleter, CommandExecutor {
         }
 
         if (cmd.getName().equals(commandName)) {
-            for (DetourCommand command : commands) {
-                if (command.getClass().getSimpleName().equalsIgnoreCase(args[0])) {
-                    List<String> curArgs = Arrays.asList(args);
-                    curArgs.subList(2, curArgs.size());
-
-                    return command.getArgs((Player) commandSender, curArgs);
+            if (args[0].equalsIgnoreCase("party")) {
+                if (args.length <= 2) {
+                    ArrayList<String> strings = new ArrayList<>();
+                    strings.add("add");
+                    return strings;
                 }
             }
         }

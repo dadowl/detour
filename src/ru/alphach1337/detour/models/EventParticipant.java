@@ -1,35 +1,18 @@
 package ru.alphach1337.detour.models;
 
-import org.bukkit.Bukkit;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
+
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.events.Event;
+
 import ru.alphach1337.detour.Settings;
 import ru.alphach1337.detour.helpers.LocationHelper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.UUID;
-
 public class EventParticipant {
-    public EventParticipant() {
-
-    }
-
     public EventParticipant(ResultSet rs) {
         try {
-            double[] coordinates = new double[3];
-
-            String[] loc = rs.getString("location").split("&");
-            World world = Bukkit.getServer().getWorld(loc[0]);
-
-            for (int i = 1; i <= 3; i++) {
-                coordinates[i - 1] = Double.parseDouble(loc[i]);
-            }
-
             this.setUUID(UUID.fromString(rs.getString("uuid")));
             this.setEvent(rs.getInt("event"));
             this.setLocation(LocationHelper.deserialize(rs.getString("location")));
@@ -100,7 +83,7 @@ public class EventParticipant {
     private int event = -1;
     private boolean reviewer = false;
     private boolean ignore = false;
-
+    //тут поменять всё на INSERT INTO Name (uuid, location, event, reviewer, ignore) VALUES(?,?,?,?,?) .set()...
     public String getSQLUpdateQuery() {
         return "UPDATE " + Settings.joinsTable + " SET " +
                 "uuid = '" + this.getUUID() + "', " +

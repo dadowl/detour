@@ -1,35 +1,36 @@
 package ru.alphach1337.detour.sqlite;
 
-import org.bukkit.Bukkit;
-import ru.alphach1337.detour.Settings;
-import ru.alphach1337.detour.models.EventParticipant;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Database {
-    private static Database instance;
+import org.bukkit.Bukkit;
 
-    private static Connection co;
+import ru.alphach1337.detour.Settings;
+import ru.alphach1337.detour.models.EventParticipant;
+
+public class Database {
+    private static final Database instance = new Database();
+
+    private Connection co;
 
     public static Database getInstance() {
-        if (instance == null) {
-            instance = new Database();
-        }
-
         return instance;
     }
 
     private void connect() {
         try {
-        	Class.forName("org.sqlite.JDBC");
+            Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:detour.db";
             co = DriverManager.getConnection(url);
 
             Bukkit.getLogger().info("Detour database initialized");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -70,7 +71,7 @@ public class Database {
             ResultSet rs = statement.executeQuery(getActiveEventQuery);
             
             if (rs.next()) {
-            	return rs.getInt(1);
+                return rs.getInt(1);
             }
 
             return -1;
@@ -136,8 +137,19 @@ public class Database {
 
         return participant;
     }
+    
+    public void addPlayerInEventUnsafe(int event, EventParticipant participant) {
+        try {
+            Statement statement = co.createStatement();
 
-    public boolean addPlayerInEvent (int event, EventParticipant participant) {
+            String query = participant.getSQLInsertQuery();
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean addPlayerInEvent(int event, EventParticipant participant) {
         EventParticipant existParticipant = getPlayerInEvent(event, participant.getUUID());
 
         if (existParticipant != null) return false;
