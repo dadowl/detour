@@ -72,7 +72,7 @@ public class EventListener implements Listener {
                         database.getPlayers(detourManager.getEventId(), false, true);
 
                 if (event.getAction() == Action.LEFT_CLICK_AIR) {
-                	Location l = players.get(0).getLocation();
+                    Location l = players.get(0).getLocation();
                     for (EventParticipant reviewer : reviewers) {
                         Bukkit.getPlayer(reviewer.getUUID()).teleport(l);
                     }
