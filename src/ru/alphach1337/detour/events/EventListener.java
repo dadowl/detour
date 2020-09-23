@@ -3,6 +3,7 @@ package ru.alphach1337.detour.events;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,10 +54,10 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+        
         DetourManager detourManager = DetourManager.getInstance();
         Database database = Database.getInstance();
-        
-        if (event.getHand() == EquipmentSlot.OFF_HAND) return;
         
         Player player = event.getPlayer();
         if (
@@ -71,8 +72,9 @@ public class EventListener implements Listener {
                         database.getPlayers(detourManager.getEventId(), false, true);
 
                 if (event.getAction() == Action.LEFT_CLICK_AIR) {
+                	Location l = players.get(0).getLocation();
                     for (EventParticipant reviewer : reviewers) {
-                        Bukkit.getPlayer(reviewer.getUUID()).teleport(players.get(0).getLocation());
+                        Bukkit.getPlayer(reviewer.getUUID()).teleport(l);
                     }
 
                 } else if (event.getAction() == Action.RIGHT_CLICK_AIR) {

@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import ru.alphach1337.detour.Settings;
-import ru.alphach1337.detour.managers.DetourManager;
 
 public class Stick extends DetourCommand {
     public Stick() {
@@ -16,20 +15,19 @@ public class Stick extends DetourCommand {
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] args) {
-        if (DetourManager.getInstance().getIsDetour()) {
-            ItemStack item = new ItemStack(Material.STICK, 1);
+        give((Player)commandSender);
+        
+        return true;
+    }
+    
+    public static void give(Player target) {
+        ItemStack item = new ItemStack(Material.STICK, 1);
 
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(Settings.stick);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(Settings.stick);
 
-            item.setItemMeta(meta);
+        item.setItemMeta(meta);
 
-            ((Player) commandSender).getInventory().addItem(item);
-
-            return true;
-        }
-        commandSender.sendMessage(Settings.notStarted);
-
-        return false;
+        target.getInventory().addItem(item);
     }
 }

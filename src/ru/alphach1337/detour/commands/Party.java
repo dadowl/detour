@@ -2,7 +2,6 @@ package ru.alphach1337.detour.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -60,7 +59,6 @@ public class Party extends DetourCommand {
                     commandSender.sendMessage(ChatColor.GREEN + "Вы добавили игрока " + player.getName() + " в команду для обхода");
                     
                     player.sendMessage(ChatColor.GREEN + "Вы добавлены в команду для обхода");
-                    player.setGameMode(GameMode.SPECTATOR);
                 } else {
                     commandSender.sendMessage(ChatColor.RED + "Игрок не найден");
                 }

@@ -25,17 +25,21 @@ public class Start extends DetourCommand {
         }
 
         if (!detourManager.getIsDetour()) {
+            final Player p = ((Player) commandSender);
+            
             detourManager.start();
 
             EventParticipant eventCreator = new EventParticipant(
-                    ((Player) commandSender).getUniqueId(),
+                    p.getUniqueId(),
                     detourManager.getEventId(),
-                    ((Player) commandSender).getLocation(),
+                    p.getLocation(),
                     true,
                     false
             );
 
             Database.getInstance().addPlayerInEvent(detourManager.getEventId(), eventCreator);
+            
+            Stick.give(p);
             
             PacketUtil.broadcastTitle(Settings.Started1, Settings.onStartSubtitle);
             
